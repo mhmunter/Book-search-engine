@@ -38,12 +38,12 @@ const resolvers = {
         const token = signToken(user);
         return { token, user };
       },
-      async saveBook(parent, args, context) {
+      async saveJob(parent, args, context) {
         console.log(user);
         try {
           const updatedUser = await User.findOneAndUpdate(
             { _id: context.user._id },
-            { $addToSet: { savedBooks: args } },
+            { $addToSet: { savedJobs: args } },
             { new: true, runValidators: true }
           );
           return updatedUser;
@@ -52,12 +52,12 @@ const resolvers = {
           throw new AuthenticationError('Incorrect input');
         }
       },
-      async deleteBook(parent, args, context) {
+      async deleteJob(parent, args, context) {
         console.log(user);
         try {
           const updatedUser = await User.findOneAndUpdate(
             { _id: context.user._id },
-            { $pull: { savedBooks: { bookId: args.bookId } } },
+            { $pull: { savedJobs: { _id: args._id } } },
             { new: true, runValidators: true }
           );
           if (!updatedUser) {
